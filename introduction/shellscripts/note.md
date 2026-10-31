@@ -20,4 +20,6 @@ date &> app.log
 # by direct the output to the blackhole
 sudo apt update &> /dev/null 
 
+
+sudo snap install just --classic 
 ```

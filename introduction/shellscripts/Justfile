@@ -1,0 +1,14 @@
+
+build: 
+    echo "1. Building the project" 
+    # cd A && docker compose up -d 
+start: 
+    echo "2. Starting the service" 
+stop: 
+    echo "3. Stopping the service " 
+destroy: 
+    echo "4. Destroy everything! " 
+
+
+# just --list 
+# just recipe-name 

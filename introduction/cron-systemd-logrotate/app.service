@@ -1,0 +1,12 @@
+
+# This configuration is stored inside the 
+# /etc/systemd/system/app.service file 
+
+[Unit]
+Description=Just a unit file service demo 
+After=network.target
+[Service]
+ExecStart=/opt/appscript.sh
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,32 @@
+# define it here 
+volumes:
+  database-vol:
+services:
+  reactjs-svc: 
+    image: dc-react-image:latest
+    build: 
+      context: reactjs
+      dockerfile: prod.Dockerfile 
+    #pull_policy: build
+    container_name: reactjs-cont
+    ports:
+      - 3005:80
+  postgres-svc: 
+    image: postgres:latest 
+    container_name: postgres_cont
+    environment:
+      - POSTGRES_PASSWORD=pass123
+    volumes: 
+      - database-vol:/var/lib/postgresql
+      # bind mount 
+      #- ./database-backup:/var/lib/postgresql
+    ports:
+      - 5432
+
+# docker compose up postgres-svc -d 
+
+# docker compose config
+# docker compose config --services 
+# docker compose up -d
+# docker compose up -d --build 
+# docker compose ps 

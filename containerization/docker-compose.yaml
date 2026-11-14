@@ -1,0 +1,15 @@
+services: 
+  nginx-1: 
+    image: nginx
+    container_named: nginx-cont1
+    ports:
+      - 3002:80
+  nginx-2: 
+    image: nginx 
+    container_name: nginx-cont2
+    ports:
+      - 3003:80
+
+# docker compose config 
+# docker compose up -d # -d detached mode 
+# docker compose down # delete the containers in compose 

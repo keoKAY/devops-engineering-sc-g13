@@ -1,0 +1,34 @@
+# spring jpa with postgres 
+services: 
+  spring-svc: 
+    image: dc-spring-api:latest 
+    build: 
+      context: spring-backend
+      dockerfile: dev.Dockerfile 
+      # args:
+      #   - GRADLE_VERSION=8
+      #   - PORT=9090
+    pull_policy: build
+    ports:
+      - 8080 # map to host port automatically 
+    depends_on:
+      - database-svc 
+    # if the database is healthy 
+    networks:
+      - api-net
+  database-svc: 
+    image: postgres:latest
+    environment:
+      - POSTGRES_PASSWORD=postgres@123
+      - POSTGRES_USER=postgresadmin
+      - POSTGRES_DB=student_db
+    volumes:
+      - database-vol:/var/lib/postgresql
+    networks:
+      - api-net
+    # ports:
+    #   - 5432:5432
+volumes:
+  database-vol: 
+networks:
+  api-net: 

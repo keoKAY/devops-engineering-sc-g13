@@ -1,0 +1,19 @@
+services: 
+  database-svc: 
+    image: postgres:latest
+    volumes:
+      - database-vol:/var/lib/postgresql
+    environment:
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db_password
+    secrets: 
+      - db_password
+    networks:
+      - api-net
+volumes:
+  database-vol: 
+networks:
+  api-net: 
+
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt

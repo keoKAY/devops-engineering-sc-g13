@@ -95,6 +95,14 @@ docker logs -f postgres-cont
 
 ## Writing your own dockerfile 
 
+Dockerfile
+```bash 
+# Dockerfile
+docker build -t image-name . 
+
+# dev.Dockerfile 
+docker build -t image-name -f dev.Dockerfile .
+```
 ```bash
 git clone https://github.com/keoKAY/reactjs-devop8-template.git reactjs
 
@@ -106,4 +114,71 @@ cd reactjs
 
 docker build -t dev-reactjs-img  .
 docker run -dp 3000:3000 --name react-cont dev-reactjs-img 
+
+docker builder ls
+docker system df # check overall usage 
+docker builder prune # delete  
 ```
+
+Multi-staged dockerfile 
+- Reduce image size ( by removing build dependencies )
+
+```bash 
+prod.Dockerfile 
+
+docker build -t prod-react-img -f prod.Dockerfile .
+docker run -dp 3001:80 --name react-cont2 prod-react-img 
+```
+
+
+## Docker Compose
+Following the convention  
+- compose.yaml , compose.yml 
+- docker-compose.yaml , docker-compose.yml
+
+
+
+
+
+Dockerfile , Image, Container 
+Multi-containers environment -> declarative ( docker compose )
+
+### Data Persistence 
+- **Docker Volume** : object of docker used to store values from the containers  
+- **Bind Mount**: backup data from containers using file system host 
+
+docker -v 
+docker --mount 
+
+volumes: 
+    - vol-name:container-path 
+    - ./path:container-path ..
+### Docker Network 
+Bridge 
+Overlay 
+Host 
+None 
+MacVLAN
+IPVLAN 
+
+- Docker use docker0(built-in bridge network)
+    - What containers running the port but no conflicts ?
+    - Why need to map port (-p 3000:80) when we want to access the container running port 80 
+
+#### Custom Bridge Networks: 
+```bash 
+docker network create custom-network --driver bridge 
+```
+- allow inter-communication between each container suing container name or service name 
+
+#### Host Network 
+COntainers attached itself to Host Network Interface
+```bash 
+docker run -d --network host spring-img
+```
+
+#### NONE network 
+for testing, for isolate the container from other networks 
+
+#### Overlay (Swarm-like environment)
+- Docker Swarm 

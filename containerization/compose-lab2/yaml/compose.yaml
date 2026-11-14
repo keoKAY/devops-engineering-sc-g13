@@ -1,0 +1,31 @@
+# 1. Define your reusable templates using extension fields
+x-logging-template: &default-logging
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+      max-file: "3"
+
+x-environment-template: &common-env-demo
+  environment:
+    APP_ENV: production
+    DB_HOST: db
+
+services:
+  web:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    # 2. Inject the reusable blocks using aliases and the merge key
+    <<: *default-logging
+    #<<: *common-env-demo
+
+  worker:
+    image: my-worker:latest
+    <<: *default-logging
+    #<<: *common-env-demo
+    # 3. Add or override specific configurations easily
+    environment:
+      APP_ENV: production
+      DB_HOST: db
+      WORKER_PROCESSES: 4

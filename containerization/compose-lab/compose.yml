@@ -8,11 +8,13 @@ services:
       # args:
       #   - GRADLE_VERSION=8
       #   - PORT=9090
-    pull_policy: build
+    #pull_policy: build
     ports:
       - 8080 # map to host port automatically 
     depends_on:
-      - database-svc 
+      # hold container to wait for the dadtabase container be healthy before starting 
+      database-svc: 
+        condition: service_healthy  
     # if the database is healthy 
     networks:
       - api-net
@@ -22,6 +24,14 @@ services:
       - POSTGRES_PASSWORD=postgres@123
       - POSTGRES_USER=postgresadmin
       - POSTGRES_DB=student_db
+    healthcheck:
+      # Use pg_isready to verify the server is accepting connections
+      test: ["CMD-SHELL", "pg_isready -U postgresadmin -d student_db"]
+      interval: 10s       # How often to run the check
+      timeout: 5s         # Maximum time to wait for a response
+      retries: 5          # Number of consecutive failures before marking unhealthy
+      start_period: 30s   # Grace period to allow database initialization
+   
     volumes:
       - database-vol:/var/lib/postgresql
     networks:

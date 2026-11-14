@@ -1,0 +1,14 @@
+services:
+  nginx1: 
+    image: nginx:alpine 
+    container_name: nginx-cont1
+    # anchor for defining variable 
+    environment: &common-env
+      - ENV=production
+      - LOG_LEVEL=info 
+      - TS=Phnom Penh 
+  nginx2: 
+    image: nginx 
+    container_name: nginx-cont-2
+    # alias for reference ( using variable )
+    environment: *common-env

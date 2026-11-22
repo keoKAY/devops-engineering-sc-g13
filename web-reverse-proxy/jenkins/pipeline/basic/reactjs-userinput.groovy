@@ -59,6 +59,7 @@ pipeline {
                 
                  sh """
                     echo "Your option is : ${envOption}"
+                    
                  """
 
                }

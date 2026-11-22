@@ -1,6 +1,13 @@
  // Build, Use Docker Container inside your jenkins pipeline 
 
 pipeline {
+
+        // discardOldBuild(logrotation)
+    // timeout 
+    options{
+        timeout(time: 5, unit: 'SECONDS')
+        buildDiscarder logRotator(numToKeepStr: '3', daysToKeepStr: '7')
+    }
     agent {
         docker {
             image 'node:alpine'
